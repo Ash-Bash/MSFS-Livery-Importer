@@ -36,6 +36,8 @@ namespace MSFS_Livery_Importer
         private string stForthInstallPath = "";
         private string stFifthInstallPath = "";
 
+        private int importProgressValue = 0;
+
         public MSFSLiveryImporterForm()
         {
             InitializeComponent();
@@ -313,14 +315,27 @@ namespace MSFS_Livery_Importer
             }
         }
 
-        private void ImportLivery() {
+        private async void ImportLivery() {
 
-            UpdateLayoutJsonFile();
-            UpdateAircraftConfig();
-            CopyTextures();
+            importProgressValue = 0;
+            progressBar1.Value = importProgressValue;
+            progressValueLabel.Text = importProgressValue.ToString() + "%";
+
+            await UpdateLayoutJsonFile();
+            await UpdateAircraftConfig();
+            await CopyTextures();
+
+            btnImport.Enabled = true;
         }
 
-        private void UpdateLayoutJsonFile() {
+        private async Task UpdateLayoutJsonFile() {
+
+            btnImport.Enabled = false;
+
+            importProgressValue = 10;
+            progressBar1.Value = importProgressValue;
+            progressValueLabel.Text = importProgressValue.ToString() + "%";
+
             JsonSerializer serializer = new JsonSerializer();
             var aircraftFolderName = aircraftList.ToArray()[aircraftTypeComboBox.SelectedIndex].FolderName;
             var path = Path.Combine(contentPath, Path.Combine(aircraftFolderName, "layout.json"));
@@ -347,9 +362,13 @@ namespace MSFS_Livery_Importer
 
             File.WriteAllText(path, outputJsonContent);
             Debug.WriteLine(path);
+
+            importProgressValue = 30;
+            progressBar1.Value = importProgressValue;
+            progressValueLabel.Text = importProgressValue.ToString() + "%";
         }
 
-        private void UpdateAircraftConfig() {
+        private async Task UpdateAircraftConfig() {
 
             var aircraftFolderName = aircraftList.ToArray()[aircraftTypeComboBox.SelectedIndex].FolderName;
             var aircraftConfigDir = aircraftList.ToArray()[aircraftTypeComboBox.SelectedIndex].ConfigDir;
@@ -397,9 +416,12 @@ namespace MSFS_Livery_Importer
             }
 
             File.AppendAllLines(path, modifiedConfig.ToArray());
+
+            importProgressValue = 75;
+            progressValueLabel.Text = importProgressValue.ToString() + "%";
         }
 
-        private void CopyTextures() {
+        private async Task CopyTextures() {
 
             var aircraftFolderName = aircraftList.ToArray()[aircraftTypeComboBox.SelectedIndex].FolderName;
             var aircraftConfigDir = aircraftList.ToArray()[aircraftTypeComboBox.SelectedIndex].ConfigDir;
@@ -411,6 +433,10 @@ namespace MSFS_Livery_Importer
             foreach (var folder in d.GetDirectories("TEXTURE.*")) {
                 DirectoryCopy(folder.FullName, Path.Combine(path, folder.Name), true);
             }
+
+            importProgressValue = 100;
+            progressBar1.Value = importProgressValue;
+            progressValueLabel.Text = importProgressValue.ToString() + "% - Completed!";
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
