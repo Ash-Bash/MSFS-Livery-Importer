@@ -46,10 +46,21 @@ namespace MSFS_Livery_Importer
             var appDir = Path.Combine(localAppData, "MSFS Livery Importer");
             var appCacheDir = Path.Combine(appDir, "Cache");
 
-            WebClient wc = new WebClient();
-            wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-            wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-            wc.DownloadFileAsync(new Uri("http://download2343.mediafire.com/dge6lqq3zmfg/xst0szzl9z3o7za/liveriesmegapack.zip"), appCacheDir + @"\liveriesmegapack.zip");
+            if (!File.Exists(Path.Combine(appCacheDir, "liveriesmegapack.zip")))
+            {
+
+                WebClient wc = new WebClient();
+                wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
+                wc.DownloadFileAsync(new Uri("http://download2326.mediafire.com/v9pga978udrg/xst0szzl9z3o7za/liveriesmegapack.zip"), appCacheDir + @"\liveriesmegapack.zip");
+            }
+            else {
+                progressValue = 50;
+                progressBar.Value = progressValue;
+                progressValueLabel.Text = progressValue.ToString() + "%";
+
+                installMegapackAsync();
+            }
         }
 
         private void installMegapackAsync() {
