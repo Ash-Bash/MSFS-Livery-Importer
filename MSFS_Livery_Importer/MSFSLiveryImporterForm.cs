@@ -315,6 +315,10 @@ namespace MSFS_Livery_Importer
 
         private void ImportLivery() {
 
+            UpdateLayoutJsonFile();
+        }
+
+        private void UpdateLayoutJsonFile() {
             JsonSerializer serializer = new JsonSerializer();
             var aircraftFolderName = aircraftList.ToArray()[aircraftTypeComboBox.SelectedIndex].FolderName;
             var path = Path.Combine(contentPath, Path.Combine(aircraftFolderName, "layout.json"));
