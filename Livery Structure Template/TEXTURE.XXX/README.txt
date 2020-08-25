@@ -1,0 +1,1 @@
+Delete this and Copy all your Texture files in hear and Replace all the XXX with Your Livery Name
