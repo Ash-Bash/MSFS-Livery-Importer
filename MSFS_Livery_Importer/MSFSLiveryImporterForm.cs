@@ -561,5 +561,11 @@ namespace MSFS_Livery_Importer
                 }
             }
         }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            AboutForm form = new AboutForm();
+            form.Show();
+        }
     }
 }

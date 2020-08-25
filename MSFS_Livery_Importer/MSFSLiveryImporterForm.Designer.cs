@@ -50,6 +50,7 @@
             this.liveryPathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.contentPathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnAbout = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -245,11 +246,22 @@
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
             // 
+            // btnAbout
+            // 
+            this.btnAbout.Location = new System.Drawing.Point(12, 476);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(95, 29);
+            this.btnAbout.TabIndex = 14;
+            this.btnAbout.Text = "About";
+            this.btnAbout.UseVisualStyleBackColor = true;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
+            // 
             // MSFSLiveryImporterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 517);
+            this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnInstallMegapack);
             this.Controls.Add(this.label5);
@@ -296,6 +308,7 @@
         private System.Windows.Forms.FolderBrowserDialog contentPathBrowserDialog;
         private System.Windows.Forms.Button btnResetContentPath;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnAbout;
     }
 }
 
