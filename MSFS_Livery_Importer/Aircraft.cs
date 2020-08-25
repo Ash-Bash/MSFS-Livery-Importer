@@ -9,11 +9,13 @@ namespace MSFS_Livery_Importer
         public string _Id;
         public string _name;
         public string _folderName;
+        public string _configDir;
 
-        public Aircraft(string id, string name, string folderName) {
+        public Aircraft(string id, string name, string folderName, string configDir) {
             this._Id = id;
             this._name = name;
             this._folderName = folderName;
+            this._configDir = configDir;
         }
 
         public string ID {
@@ -33,8 +35,14 @@ namespace MSFS_Livery_Importer
             set { _folderName = value; }
         }
 
+        public string ConfigDir
+        {
+            get { return _configDir; }
+            set { _configDir = value; }
+        }
+
         public string ToString() {
-            return "ID: " + this.ID + " Name: " + this.Name + " FolderName: " + this.FolderName;
+            return "ID: " + this.ID + " Name: " + this.Name + " FolderName: " + this.FolderName + " ConfigDir: " + this.ConfigDir;
         }
     }
 }
