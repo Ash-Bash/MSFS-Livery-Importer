@@ -4,41 +4,47 @@ using System.Text;
 
 namespace MSFS_Livery_Importer
 {
+
+    public class AircraftList {
+        public List<Aircraft> supportedlist { get; set; }
+    }
+
     public class Aircraft
     {
-        public string _Id;
-        public string _name;
-        public string _folderName;
-        public string _configDir;
+
+        public string id { get; set; }
+        public string name { get; set; }
+        public string folderName { get; set; }
+        public string textureDir { get; set; }
 
         public Aircraft(string id, string name, string folderName, string configDir) {
-            this._Id = id;
-            this._name = name;
-            this._folderName = folderName;
-            this._configDir = configDir;
+            this.id = id;
+            this.name = name;
+            this.folderName = folderName;
+            this.textureDir = configDir;
         }
 
         public string ID {
-            get { return _Id; }
-            set { _Id = value; }
+            get { return id; }
+            set { id = value; }
         }
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         public string FolderName
         {
-            get { return _folderName; }
-            set { _folderName = value; }
+            get { return folderName; }
+            set { folderName = value; }
         }
 
         public string ConfigDir
         {
-            get { return _configDir; }
-            set { _configDir = value; }
+            get { return textureDir; }
+            set { textureDir = value; }
         }
 
         public string ToString() {

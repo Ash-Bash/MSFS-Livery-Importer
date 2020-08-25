@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using static MSFS_Livery_Importer.JSONModel;
+using System.Net;
 
 namespace MSFS_Livery_Importer
 {
@@ -18,6 +19,7 @@ namespace MSFS_Livery_Importer
     {
 
         // Variables
+        private AppManifest manifest;
         private List<Aircraft> aircraftList = new List<Aircraft>();
         private string liveryPath = "";
         private string contentPath = "";
@@ -61,6 +63,15 @@ namespace MSFS_Livery_Importer
 
         private void LoadConfigs() {
 
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("https://raw.githubusercontent.com/Ash-Bash/MSFS-Livery-Importer-Configs/master/appmanifest.json");
+            StreamReader reader = new StreamReader(stream);
+            string content = reader.ReadToEnd();
+            Debug.WriteLine(content);
+            manifest = JsonConvert.DeserializeObject<AppManifest>(content);
+
+            Debug.WriteLine("Megapack: " + manifest.megapack);
+
             progressValueLabel.Text = "0%";
 
             GetPossiblePaths();
@@ -73,7 +84,21 @@ namespace MSFS_Livery_Importer
         }
 
         private void LoadAircraft() {
-            aircraftList.Add(new Aircraft("a320neo", "Airbus A320neo", "liveries-a320", @"SimObjects\Airplanes\Asobo_A320_NEO"));
+
+
+            WebClient client = new WebClient();
+            Stream stream = client.OpenRead("https://raw.githubusercontent.com/Ash-Bash/MSFS-Livery-Importer-Configs/master/aircraftlist.json");
+            StreamReader reader = new StreamReader(stream);
+            string content = reader.ReadToEnd();
+            Debug.WriteLine(content);
+            AircraftList aircraftListObject = JsonConvert.DeserializeObject<AircraftList>(content);
+
+
+            foreach (Aircraft item in aircraftListObject.supportedlist) {
+                aircraftList.Add(item);
+            }
+            
+            /*aircraftList.Add(new Aircraft("a320neo", "Airbus A320neo", "liveries-a320", @"SimObjects\Airplanes\Asobo_A320_NEO"));
             //aircraftList.Add(new Aircraft("apsS2S", "Aviat Pitts Special S2S", "liveries-pitts", ""));
             aircraftList.Add(new Aircraft("b747-8", "Boeing 747 - 8 Intercontinental", "liveries-747", @"SimObjects\Airplanes\Asobo_B747_8i"));
             aircraftList.Add(new Aircraft("ccxc", "CubCrafters XCub", "liveries-xcub", @"SimObjects\Airplanes\Asobo_XCub"));
@@ -102,7 +127,7 @@ namespace MSFS_Livery_Importer
             //aircraftList.Add(new Aircraft("csr22", "Cirrus SR22", "", ""));
             //aircraftList.Add(new Aircraft("pvsw121", "Pipistrel Virus SW 121", "", ""));
             //aircraftList.Add(new Aircraft("ccl", "Cessna Citation Longitude", "", ""));
-            //aircraftList.Add(new Aircraft("zsu", "Zlin Shock Ultra", "", ""));
+            //aircraftList.Add(new Aircraft("zsu", "Zlin Shock Ultra", "", ""));*/
 
            Debug.WriteLine(aircraftList.Count);
         }
@@ -510,7 +535,7 @@ namespace MSFS_Livery_Importer
         private void btnInstallMegapack_Click(object sender, EventArgs e)
         {
 
-            MegapackDownloader downloaderView = new MegapackDownloader(contentPathComboBox.Text, this);
+            MegapackDownloader downloaderView = new MegapackDownloader(contentPathComboBox.Text, this, manifest);
             downloaderView.ShowDialog();
         }
 

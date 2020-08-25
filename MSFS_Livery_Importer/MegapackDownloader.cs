@@ -22,15 +22,17 @@ namespace MSFS_Livery_Importer
         // Variables
         public string contentPath = "";
         public MSFSLiveryImporterForm form1;
+        public AppManifest manifest;
         private bool isInstalling = false;
         private bool isCompleted = false;
         private int progressValue = 0;
 
-        public MegapackDownloader(string path, MSFSLiveryImporterForm form1)
+        public MegapackDownloader(string path, MSFSLiveryImporterForm form1, AppManifest manifest)
         {
             InitializeComponent();
             this.contentPath = path;
             this.form1 = form1;
+            this.manifest = manifest;
         }
 
         private void MegapackDownloader_Load(object sender, EventArgs e)
@@ -52,7 +54,7 @@ namespace MSFS_Livery_Importer
                 WebClient wc = new WebClient();
                 wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                 wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-                wc.DownloadFileAsync(new Uri("http://download2326.mediafire.com/v9pga978udrg/xst0szzl9z3o7za/liveriesmegapack.zip"), appCacheDir + @"\liveriesmegapack.zip");
+                wc.DownloadFileAsync(new Uri(manifest.megapack), appCacheDir + @"\liveriesmegapack.zip");
             }
             else {
                 progressValue = 50;
