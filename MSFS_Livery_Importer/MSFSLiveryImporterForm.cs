@@ -61,19 +61,12 @@ namespace MSFS_Livery_Importer
             }
         }
 
+        // Loads Configs before App Loads
         private void LoadConfigs() {
-
-            WebClient client = new WebClient();
-            Stream stream = client.OpenRead("https://raw.githubusercontent.com/Ash-Bash/MSFS-Livery-Importer-Configs/master/appmanifest.json");
-            StreamReader reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
-            Debug.WriteLine(content);
-            manifest = JsonConvert.DeserializeObject<AppManifest>(content);
-
-            Debug.WriteLine("Megapack: " + manifest.megapack);
 
             progressValueLabel.Text = "0%";
 
+            LoadAppManifest();
             GetPossiblePaths();
             CheckIfInstalled();
             CheckIfMagapackInstalled();
@@ -83,53 +76,61 @@ namespace MSFS_Livery_Importer
             InitialSetup();
         }
 
+        private void LoadAppManifest() {
+            try
+            {
+                WebClient client = new WebClient();
+                Stream stream = client.OpenRead("https://raw.githubusercontent.com/Ash-Bash/MSFS-Livery-Importer-Configs/master/appmanifest.json");
+                StreamReader reader = new StreamReader(stream);
+                string content = reader.ReadToEnd();
+                Debug.WriteLine(content);
+                manifest = JsonConvert.DeserializeObject<AppManifest>(content);
+            }
+            catch (WebException ex)
+            {
+                // occurs when any error occur while reading from network stream
+                manifest = new AppManifest();
+                manifest.megapack = "http://download2329.mediafire.com/x2bzsn43dfcg/xst0szzl9z3o7za/liveriesmegapack.zip";
+            }
+
+            Debug.WriteLine("Megapack: " + manifest.megapack);
+        }
+
+        // Loads List of Supported Aircraft
         private void LoadAircraft() {
 
+            try
+            {
+                WebClient client = new WebClient();
+                Stream stream = client.OpenRead("https://raw.githubusercontent.com/Ash-Bash/MSFS-Livery-Importer-Configs/master/aircraftlist.json");
+                StreamReader reader = new StreamReader(stream);
+                string content = reader.ReadToEnd();
+                Debug.WriteLine(content);
+                AircraftList aircraftListObject = JsonConvert.DeserializeObject<AircraftList>(content);
 
-            WebClient client = new WebClient();
-            Stream stream = client.OpenRead("https://raw.githubusercontent.com/Ash-Bash/MSFS-Livery-Importer-Configs/master/aircraftlist.json");
-            StreamReader reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
-            Debug.WriteLine(content);
-            AircraftList aircraftListObject = JsonConvert.DeserializeObject<AircraftList>(content);
 
-
-            foreach (Aircraft item in aircraftListObject.supportedlist) {
-                aircraftList.Add(item);
+                foreach (Aircraft item in aircraftListObject.supportedlist)
+                {
+                    aircraftList.Add(item);
+                }
             }
-            
-            /*aircraftList.Add(new Aircraft("a320neo", "Airbus A320neo", "liveries-a320", @"SimObjects\Airplanes\Asobo_A320_NEO"));
-            //aircraftList.Add(new Aircraft("apsS2S", "Aviat Pitts Special S2S", "liveries-pitts", ""));
-            aircraftList.Add(new Aircraft("b747-8", "Boeing 747 - 8 Intercontinental", "liveries-747", @"SimObjects\Airplanes\Asobo_B747_8i"));
-            aircraftList.Add(new Aircraft("ccxc", "CubCrafters XCub", "liveries-xcub", @"SimObjects\Airplanes\Asobo_XCub"));
-            aircraftList.Add(new Aircraft("tbm930", "Daher TBM 930", "liveries-tbm930", @"SimObjects\Airplanes\Asobo_TBM930"));
-            //aircraftList.Add(new Aircraft("da62", "Diamond DA62", "liveries-da62", ""));
-            aircraftList.Add(new Aircraft("da62ng", "Diamond DA40 NG", "liveries-da40ng", @"SimObjects\Airplanes\Asobo_DA40_NG"));
-            aircraftList.Add(new Aircraft("330lt", "EXTRA 330LT", "liveries-e330", @"SimObjects\Airplanes\Asobo_E330"));
-            //aircraftList.Add(new Aircraft("fdctls", "Flight Design CTLS", "liveries-flightdesignct", ""));
-            aircraftList.Add(new Aircraft("icona5", "ICON A5", "liveries-a5", @"SimObjects\Airplanes\Asobo_Icon"));
-            //aircraftList.Add(new Aircraft("jvl3", "JMB VL-3", "liveries-vl3"));
-            //aircraftList.Add(new Aircraft("rcap10", "Robin CAP 10", "liveries-cap10c", ""));
-            //aircraftList.Add(new Aircraft("rdr400-100c", "Robin DR400-100 Cadet", "liveries-dr400", ""));
-            //aircraftList.Add(new Aircraft("bcg36", "Beechcraft Bonanza G36", "liveries-bronanza-g36", ""));
-            //aircraftList.Add(new Aircraft("bc350i", "Beechcraft King Air 350i", "liveries-kingair350", ""));
-            //aircraftList.Add(new Aircraft("c152", "Cessna 152", ""));
-            aircraftList.Add(new Aircraft("c172sg1", "Cessna 172 Skyhawk (G1000)", "liveries-c172-as1000", @"SimObjects\Airplanes\Asobo_C172sp_AS1000"));
-            aircraftList.Add(new Aircraft("c208bgcex", "Cessna 208 B Grand Caravan EX", "liveries-cessna208b", @"SimObjects\Airplanes\Asobo_208B_GRAND_CARAVAN_EX"));
-            aircraftList.Add(new Aircraft("cccj4", "Cessna Citation CJ4", "liveries-cj4", @"SimObjects\Airplanes\Asobo_CJ4"));
-            aircraftList.Add(new Aircraft("zsc", "Zlin Savage Cub", "liveries-savagecub", @"SimObjects\Airplanes\Asobo_Savage_Cub"));
-            //aircraftList.Add(new Aircraft("dda40tdi", "Diamond DA40-TDI", "", ""));
-            //aircraftList.Add(new Aircraft("ddv20", "Diamond DV20", "", ""));
-            //aircraftList.Add(new Aircraft("bcbg58", "Beechcraft Baron G58", "", ""));
-            //aircraftList.Add(new Aircraft("c152a", "Cessna 152 Aerobat", "", ""));
-            //aircraftList.Add(new Aircraft("c172s", "Cessna 172 Skyhawk", "", ""));
-            //aircraftList.Add(new Aircraft("b78710d", "Boeing 787-10 Dreamliner", "", ""));
-            //aircraftList.Add(new Aircraft("csr22", "Cirrus SR22", "", ""));
-            //aircraftList.Add(new Aircraft("pvsw121", "Pipistrel Virus SW 121", "", ""));
-            //aircraftList.Add(new Aircraft("ccl", "Cessna Citation Longitude", "", ""));
-            //aircraftList.Add(new Aircraft("zsu", "Zlin Shock Ultra", "", ""));*/
+            catch (WebException ex)
+            {
+                // occurs when any error occur while reading from network stream
+                aircraftList.Add(new Aircraft("a320neo", "Airbus A320neo", "liveries-a320", @"SimObjects\Airplanes\Asobo_A320_NEO"));
+                aircraftList.Add(new Aircraft("b747-8", "Boeing 747 - 8 Intercontinental", "liveries-747", @"SimObjects\Airplanes\Asobo_B747_8i"));
+                aircraftList.Add(new Aircraft("ccxc", "CubCrafters XCub", "liveries-xcub", @"SimObjects\Airplanes\Asobo_XCub"));
+                aircraftList.Add(new Aircraft("tbm930", "Daher TBM 930", "liveries-tbm930", @"SimObjects\Airplanes\Asobo_TBM930"));
+                aircraftList.Add(new Aircraft("da62ng", "Diamond DA40 NG", "liveries-da40ng", @"SimObjects\Airplanes\Asobo_DA40_NG"));
+                aircraftList.Add(new Aircraft("330lt", "EXTRA 330LT", "liveries-e330", @"SimObjects\Airplanes\Asobo_E330"));
+                aircraftList.Add(new Aircraft("icona5", "ICON A5", "liveries-a5", @"SimObjects\Airplanes\Asobo_Icon"));
+                aircraftList.Add(new Aircraft("c172sg1", "Cessna 172 Skyhawk (G1000)", "liveries-c172-as1000", @"SimObjects\Airplanes\Asobo_C172sp_AS1000"));
+                aircraftList.Add(new Aircraft("c208bgcex", "Cessna 208 B Grand Caravan EX", "liveries-cessna208b", @"SimObjects\Airplanes\Asobo_208B_GRAND_CARAVAN_EX"));
+                aircraftList.Add(new Aircraft("cccj4", "Cessna Citation CJ4", "liveries-cj4", @"SimObjects\Airplanes\Asobo_CJ4"));
+                aircraftList.Add(new Aircraft("zsc", "Zlin Savage Cub", "liveries-savagecub", @"SimObjects\Airplanes\Asobo_Savage_Cub"));
+            }
 
-           Debug.WriteLine(aircraftList.Count);
+            Debug.WriteLine(aircraftList.Count);
         }
 
         private void GetPossiblePaths() {

@@ -34,6 +34,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnInstall = new System.Windows.Forms.Button();
             this.progressStateLabel = new System.Windows.Forms.Label();
+            this.linkDiscord = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // progressBar
@@ -94,11 +95,24 @@
             this.progressStateLabel.Text = "Download...";
             this.progressStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // linkDiscord
+            // 
+            this.linkDiscord.AutoSize = true;
+            this.linkDiscord.Location = new System.Drawing.Point(553, 9);
+            this.linkDiscord.Name = "linkDiscord";
+            this.linkDiscord.Size = new System.Drawing.Size(60, 20);
+            this.linkDiscord.TabIndex = 5;
+            this.linkDiscord.TabStop = true;
+            this.linkDiscord.Text = "Discord";
+            this.linkDiscord.Visible = false;
+            this.linkDiscord.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkDiscord_LinkClicked);
+            // 
             // MegapackDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(625, 149);
+            this.Controls.Add(this.linkDiscord);
             this.Controls.Add(this.progressStateLabel);
             this.Controls.Add(this.btnInstall);
             this.Controls.Add(this.label2);
@@ -122,5 +136,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnInstall;
         private System.Windows.Forms.Label progressStateLabel;
+        private System.Windows.Forms.LinkLabel linkDiscord;
     }
 }

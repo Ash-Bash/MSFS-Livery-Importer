@@ -39,7 +39,9 @@ namespace MSFS_Livery_Importer
         {
             progressValueLabel.Text = "0%";
             progressStateLabel.Text = "";
-            //progressValueLabel.Text = contentPath;
+
+            //linkDiscord.LinkArea = new LinkArea(0, 60);
+            linkDiscord.Links.Add(0, 7, "https://discord.gg/4yzhRD");
         }
 
         private async Task downloadMegapackAsync() {
@@ -48,13 +50,23 @@ namespace MSFS_Livery_Importer
             var appDir = Path.Combine(localAppData, "MSFS Livery Importer");
             var appCacheDir = Path.Combine(appDir, "Cache");
 
+            // If megapack doesnt exist in AppData/Local/MSFS Livery Importer then download else move onto install
             if (!File.Exists(Path.Combine(appCacheDir, "liveriesmegapack.zip")))
             {
 
-                WebClient wc = new WebClient();
-                wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-                wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-                wc.DownloadFileAsync(new Uri(manifest.megapack), appCacheDir + @"\liveriesmegapack.zip");
+                // Trys and gets the megapack if it cant will show a Error Message Alert
+                try
+                {
+                    WebClient wc = new WebClient();
+                    wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
+                    wc.DownloadFileAsync(new Uri(manifest.megapack), appCacheDir + @"\liveriesmegapack.zip");
+                }
+                catch (WebException ex)
+                {
+                    // occurs when any error occur while reading from network stream
+                    MessageBox.Show("Error!", "Unable to download megapack please try again later");
+                }
             }
             else {
                 progressValue = 50;
@@ -149,6 +161,11 @@ namespace MSFS_Livery_Importer
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void linkDiscord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.discord.gg/4yzhRD");
         }
     }
 }

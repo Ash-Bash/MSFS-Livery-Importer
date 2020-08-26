@@ -1,0 +1,70 @@
+{
+    "supportedlist": [
+        {
+            "id": "a320neo",
+            "name": "Airbus A320neo",
+            "folderName": "liveries-a320",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_A320_NEO"
+        },
+        {
+            "id": "b747-8",
+            "name": "Boeing 747 - 8 Intercontinental",
+            "folderName": "liveries-747",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_B747_8i"
+        },
+        {
+            "id": "ccxc",
+            "name": "CubCrafters XCub",
+            "folderName": "liveries-xcub",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_XCub"
+        },
+        {
+            "id": "tbm930",
+            "name": "Daher TBM 930",
+            "folderName": "liveries-tbm930",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_TBM930"
+        },
+        {
+            "id": "330lt",
+            "name": "Diamond DA40 NG",
+            "folderName": "liveries-da40ng",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_DA40_NG"
+        },
+        {
+            "id": "330lt",
+            "name": "EXTRA 330LT",
+            "folderName": "liveries-e330",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_E330"
+        },
+        {
+            "id": "icona5",
+            "name": "ICON A5",
+            "folderName": "liveries-a5",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_Icon"
+        },
+        {
+            "id": "c172sg1",
+            "name": "Cessna 172 Skyhawk (G1000)",
+            "folderName": "liveries-c172-as1000",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_C172sp_AS1000"
+        },
+        {
+            "id": "c208bgcex",
+            "name": "Cessna 208 B Grand Caravan EX",
+            "folderName": "liveries-cessna208b",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_208B_GRAND_CARAVAN_EX"
+        },
+        {
+            "id": "cccj4",
+            "name": "Cessna Citation CJ4",
+            "folderName": "liveries-cj4",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_CJ4"
+        },
+        {
+            "id": "zsc",
+            "name": "Zlin Savage Cub",
+            "folderName": "liveries-savagecub",
+            "textureDir": "SimObjects\\Airplanes\\Asobo_Savage_Cub"
+        }
+    ]
+}
