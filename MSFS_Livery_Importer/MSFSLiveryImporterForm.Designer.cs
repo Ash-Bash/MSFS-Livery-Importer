@@ -273,7 +273,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MSFSLiveryImporterForm";
-            this.Text = "MSFS Livery Importer - v0.1.0";
+            this.Text = "MSFS Livery Importer - v0.1.1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

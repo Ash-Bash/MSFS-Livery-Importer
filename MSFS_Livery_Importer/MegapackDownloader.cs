@@ -10,6 +10,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,6 +27,7 @@ namespace MSFS_Livery_Importer
         private bool isInstalling = false;
         private bool isCompleted = false;
         private int progressValue = 0;
+        private WebClient wc;
 
         public MegapackDownloader(string path, MSFSLiveryImporterForm form1, AppManifest manifest)
         {
@@ -57,10 +59,10 @@ namespace MSFS_Livery_Importer
                 // Trys and gets the megapack if it cant will show a Error Message Alert
                 try
                 {
-                    WebClient wc = new WebClient();
+                    wc = new WebClient();
                     wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                     wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
-                    wc.DownloadFileAsync(new Uri(manifest.megapack), appCacheDir + @"\liveriesmegapack.zip");
+                    wc.DownloadFileAsync(new Uri(manifest.megapack), Path.Combine(appCacheDir, "liveriesmegapack.zip"));
                 }
                 catch (WebException ex)
                 {
@@ -69,11 +71,20 @@ namespace MSFS_Livery_Importer
                 }
             }
             else {
-                progressValue = 50;
-                progressBar.Value = progressValue;
-                progressValueLabel.Text = progressValue.ToString() + "%";
+                File.Delete(Path.Combine(appCacheDir, "liveriesmegapack.zip"));
 
-                installMegapackAsync();
+                try
+                {
+                    wc = new WebClient();
+                    wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
+                    wc.DownloadFileAsync(new Uri(manifest.megapack), Path.Combine(appCacheDir, "liveriesmegapack.zip"));
+                }
+                catch (WebException ex)
+                {
+                    // occurs when any error occur while reading from network stream
+                    MessageBox.Show("Error!", "Unable to download megapack please try again later");
+                }
             }
         }
 
@@ -141,8 +152,17 @@ namespace MSFS_Livery_Importer
             if (e.Error != null)
                 return;
 
-            progressStateLabel.Text = "Installing...";
-            installMegapackAsync();
+            if (e.Cancelled)
+            {
+                wc.Dispose();
+                return;
+            }
+            else
+            {
+                btnCancel.Enabled = false;
+                progressStateLabel.Text = "Installing...";
+                installMegapackAsync();
+            }
         }
 
         private async void btnInstall_Click(object sender, EventArgs e)
@@ -160,6 +180,7 @@ namespace MSFS_Livery_Importer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            wc.CancelAsync();
             this.Close();
         }
 
