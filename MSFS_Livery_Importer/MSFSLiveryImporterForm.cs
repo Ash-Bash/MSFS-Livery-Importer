@@ -133,6 +133,7 @@ namespace MSFS_Livery_Importer
             Debug.WriteLine(aircraftList.Count);
         }
 
+        // Creates all possible GameData Community Paths 
         private void GetPossiblePaths() {
             msInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Packages\Microsoft.FlightSimulator_8wekyb3d8bbwe\LocalCache\Packages\Community";
             stFirstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Microsoft Flight Simulator\Packages\Community";
@@ -142,6 +143,7 @@ namespace MSFS_Livery_Importer
             stFifthInstallPath = @"C:\Program Files (x86)\Steam\steamapps\common\Community";
         }
 
+        // Checks to see if Game is Installed
         private void CheckIfInstalled() {
             hasGameInstalled = Directory.Exists(msInstallPath)
                 || Directory.Exists(stFirstInstallPath)
@@ -169,6 +171,7 @@ namespace MSFS_Livery_Importer
             Debug.WriteLine("Steam Version Installed: " + hasSteamVersionInstalled);
         }
 
+        // Check if Magepack by Clink123 is Installed
         public void CheckIfMagapackInstalled() {
             if (hasGameInstalled)
             {
@@ -287,6 +290,7 @@ namespace MSFS_Livery_Importer
             }
         }
 
+        // Trys to find where Steam Version is then returns the String
         private string GetSteamContentPath() {
             string value = "";
 
@@ -318,6 +322,7 @@ namespace MSFS_Livery_Importer
             return value;
         }
 
+        // Checks If Game is Installed, Where its is and then Assigns the Game Path to ContentPath
         private void LoadContentPath() {
 
             if (hasGameInstalled)
@@ -341,6 +346,7 @@ namespace MSFS_Livery_Importer
             }
         }
 
+        // Starts Proccess of Importing Livery
         private async void ImportLivery() {
 
             importProgressValue = 0;
